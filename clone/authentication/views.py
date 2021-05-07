@@ -3,7 +3,7 @@ import json
 from rest_framework import permissions, status, viewsets, views
 from rest_framework.response import Response
 
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 
 from .models import User
 from .serializers import UserSerializer
@@ -70,4 +70,11 @@ class LoginView(views.APIView):
                 status=status.HTTP_401_UNAUTHORIZED)
 
 
+class LogoutView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        logout(request)
+
+        return Response({}, status=status.HTTP_204_NO_CONTENT)
 
